@@ -1,4 +1,7 @@
 import typer
+import sys
+import os
+sys.path.append(os.path.join(os.path.dirname(__file__), "src"))
 from apex_flow.config import settings
 from apex_flow.logger import setup_logging
 from apex_flow.ingestion.pipeline import pipeline
@@ -15,7 +18,11 @@ def setup(log_level: str = "INFO"):
     setup_logging(log_level=log_level)
 
 @app.command()
-def ingest(year: int, gp: str, session: str):
+def ingest(
+    year: int = typer.Option(..., help="Race season year"),
+    gp: str = typer.Option(..., help="Grand Prix name"),
+    session: str = typer.Option(..., help="Session type (FP1, FP2, FP3, Q, R)")
+):
     """
     Manually trigger ingestion for a specific session.
     """

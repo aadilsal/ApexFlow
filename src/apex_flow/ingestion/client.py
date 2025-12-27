@@ -2,6 +2,7 @@ import fastf1
 import time
 import random
 from typing import Optional, Any
+from pathlib import Path
 from apex_flow.config import settings
 from apex_flow.logger import logger
 from datetime import datetime
@@ -9,7 +10,9 @@ from datetime import datetime
 class FastF1Client:
     def __init__(self):
         if settings.fastf1.use_cache:
-            fastf1.Cache.enable_cache(settings.fastf1.cache_dir)
+            cache_path = Path(settings.fastf1.cache_dir)
+            cache_path.mkdir(parents=True, exist_ok=True)
+            fastf1.Cache.enable_cache(str(cache_path))
         
     def _retry_with_backoff(self, func, *args, **kwargs):
         retries = settings.ingestion.retries
