@@ -1,0 +1,15 @@
+fastf1:
+  cache_dir: "C:/Users/aadil/.gemini/apexflow_cache"
+  requests_per_hour: 500
+  use_cache: true
+
+ingestion:
+  raw_data_path: "data/raw"
+  processed_data_path: "data/processed"
+  output_format: "parquet"
+  retries: 5
+  backoff_factor: 2.0
+
+scheduler:
+  poll_interval_minutes: 30
+  timezone: "Europe/London"
