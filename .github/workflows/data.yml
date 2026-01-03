@@ -1,0 +1,36 @@
+name: Data Pipeline
+
+on:
+  push:
+    paths:
+      - 'data/**'
+      - '*.dvc'
+
+jobs:
+  validate-data:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install pytest pytest-cov
+
+      - name: Pull data from DVC
+        run: |
+          # Note: Requires DVC remote credentials in secrets
+          # dvc pull
+          echo "Simulated: dvc pull"
+
+      - name: Run Data Quality Tests
+        run: |
+          pytest tests/data/test_quality.py

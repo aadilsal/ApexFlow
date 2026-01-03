@@ -1,0 +1,29 @@
+# Dockerfile.pipeline
+# Multi-stage build for ApexFlow Training & Feature Pipeline
+
+# --- Stage 1: Build ---
+FROM python:3.10-slim as builder
+
+WORKDIR /build
+
+COPY requirements.txt .
+RUN pip install --user --no-cache-dir -r requirements.txt
+
+# --- Stage 2: Final ---
+FROM python:3.10-slim
+
+WORKDIR /app
+
+# Copy installed packages from builder
+COPY --from=builder /root/.local /root/.local
+ENV PATH=/root/.local/bin:$PATH
+
+# Copy source code and data management tools
+COPY src /app/src
+COPY config /app/config
+COPY .dvc /app/.dvc
+
+# Install DVC (optional, if needed inside container)
+# RUN pip install dvc[s3] # or other remotes
+
+ENTRYPOINT ["python"]

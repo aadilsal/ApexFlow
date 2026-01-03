@@ -1,0 +1,5 @@
+outs:
+- md5: 827bf3cfc153cc9bf90d9c59197f7ef5
+  size: 543998
+  hash: md5
+  path: driver_21_telemetry.parquet

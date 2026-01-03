@@ -1,0 +1,5 @@
+outs:
+- md5: 4d6ff9611599cd1c3f10e67b209fab0c
+  size: 2965707
+  hash: md5
+  path: driver_77_telemetry.parquet

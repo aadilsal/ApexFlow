@@ -1,0 +1,43 @@
+# config/retraining.yaml
+# Configuration for Module 7: Automated Retraining Pipeline
+
+drift:
+  severity_threshold: 0.7
+  debounce_seconds: 3600
+  cooldown_seconds: 86400
+  trigger_database: "drift_listener.db"
+
+data:
+  data_dir: "data"
+  required_columns:
+    - "lap_time"
+    - "driver_id"
+    - "circuit_id"
+    - "session_type"
+
+resources:
+  max_cpu_percent: 80.0
+  max_memory_percent: 80.0
+  max_queue_size: 5
+  use_docker: false
+  docker_image: "apex-flow-trainer:latest"
+
+validation:
+  mae_threshold: 0.05      # Absolute improvement required in MAE
+  rmse_threshold: 0.05     # Absolute improvement required in RMSE
+  p_value_threshold: 0.05  # Significance level for t-test
+  baseline_path: "validation/baseline_metrics.json"
+  improvement_threshold: 0.01 # Percentage improvement for promotion
+
+notifications:
+  webhook_url: ""          # Optional webhook for alerts
+  log_file: "logs/notifications.log"
+
+schedule_optimizer:
+  cooldown_seconds: 3600   # Min time between any two retrains
+  max_weekend_retrains: 3  # Cap retrains during race weekends
+  weekend_days: [5, 6]     # Friday=4, Saturday=5, Sunday=6 (0=Monday)
+
+orchestration:
+  flow_name: "apexflow_retraining_pipeline"
+  default_season: "2026"

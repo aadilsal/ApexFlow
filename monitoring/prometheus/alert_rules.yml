@@ -1,0 +1,29 @@
+groups:
+  - name: apexflow_alerts
+    rules:
+      - alert: HighLatency
+        expr: apexflow_prediction_latency_seconds_bucket{le="0.5"} / apexflow_prediction_latency_seconds_count < 0.9
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "High prediction latency on {{ $labels.circuit_id }}"
+          description: "P90 latency is above 500ms for more than 5 minutes."
+
+      - alert: ErrorRateSpike
+        expr: rate(http_request_duration_seconds_count{status=~"5.."}[5m]) > 0.05
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "API Error rate spike"
+          description: "More than 5% of requests are failing with 5xx errors."
+
+      - alert: ModelNotLoaded
+        expr: apexflow_api_model_loaded == 0
+        for: 1m
+        labels:
+          severity: emergency
+        annotations:
+          summary: "Model not loaded in API"
+          description: "The prediction service is running but no model is active."

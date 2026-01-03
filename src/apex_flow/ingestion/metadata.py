@@ -32,10 +32,10 @@ class MetadataExtractor:
         # Let's simple use the string repr of the event.
         
         return SessionMetadata(
-            season=session.event.Year,
-            round_number=session.event.RoundNumber,
-            circuit_name=session.event.Location, # Location/Circuit
-            country=session.event.Country,
+            season=session.event['EventDate'].year,
+            round_number=session.event['RoundNumber'],
+            circuit_name=session.event.get('Location', 'Unknown'), # Location/Circuit
+            country=session.event.get('Country', 'Unknown'),
             session_name=session.name,
             session_date=session.date,
             weather_air_temp=float(air_temp),

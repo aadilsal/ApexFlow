@@ -1,0 +1,15 @@
+{
+    "autoscaling_policy": {
+        "name": "apexflow-api-scaling",
+        "target_cpu_utilization": 0.7,
+        "target_request_concurrency": 50,
+        "min_replicas": 1,
+        "max_replicas": 15,
+        "cool_down_period_seconds": 60,
+        "scaling_mode": "PREDICTIVE"
+    },
+    "resource_quotas": {
+        "guaranteed_cpu": 0.5,
+        "guaranteed_memory_mb": 1024
+    }
+}

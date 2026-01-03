@@ -1,0 +1,13 @@
+# config/envs/prod.yaml
+environment: production
+tracking:
+  mlflow_uri: "https://mlflow.apexflow.ai"
+  dvc_remote: "s3://apexflow-prod-data"
+
+inference:
+  service_port: 80
+  timeout: 10
+  max_batch_size: 50
+
+notifications:
+  webhook_url: "https://webhooks.example.com/prod"

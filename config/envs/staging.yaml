@@ -1,0 +1,13 @@
+# config/envs/staging.yaml
+environment: staging
+tracking:
+  mlflow_uri: "http://staging-mlflow:5000"
+  dvc_remote: "s3://apexflow-staging-data"
+
+inference:
+  service_port: 8000
+  timeout: 30
+  max_batch_size: 100
+
+notifications:
+  webhook_url: "https://webhooks.example.com/staging"

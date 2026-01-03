@@ -64,6 +64,7 @@ class IngestionPipeline:
         # FastF1 can sometimes fail here if no data
         try:
             telemetry = driver_laps.get_telemetry()
+            telemetry['Driver'] = driver_num # Inject for validation/standardization
         except Exception as e:
             logger.warning("telemetry_fetch_failed", driver=driver_num, error=str(e))
             return
@@ -79,15 +80,15 @@ class IngestionPipeline:
         clean_laps = Standardizer.standardize_laps(driver_laps)
         
         # Save
-        t_path = output_dir / f"driver_{driver_num}.parquet" # Combined laps/telemetry usually handled separately but simplified here
-        # Actually logic is separating them. 
         t_path = output_dir / f"driver_{driver_num}_telemetry.parquet"
+        l_path = output_dir / f"driver_{driver_num}_laps.parquet"
         
         clean_telemetry.to_parquet(t_path, index=False)
+        clean_laps.to_parquet(l_path, index=False)
         
         # Versioning
         # 1. DVC Add
-        if vc.dvc_add(t_path):
+        if vc.dvc_add(t_path) and vc.dvc_add(l_path):
             # 2. Get Hash
             dvc_hash = vc.get_dvc_hash(t_path)
             # 3. Git Commit (optional per file, or batch. For simplicity, we skip full git commit loop here per file to avoid spam)
@@ -99,6 +100,8 @@ class IngestionPipeline:
                 "session_type": metadata.session_name
             }
             if dvc_hash:
+                # Registering both is complex with current API one-to-one. 
+                # For now register Telemetry as primary.
                 registry.register_version(dataset_id, dvc_hash, None, t_path, tags)
         
         logger.info("driver_processed", driver=driver_num, laps=len(clean_laps))
