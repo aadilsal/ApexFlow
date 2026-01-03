@@ -127,7 +127,7 @@ services:
         - VITE_API_URL=http://localhost:8000
     container_name: apexflow-frontend
     ports:
-      - "5173:80"
+      - "80:80"
     depends_on:
       - api
     networks:
