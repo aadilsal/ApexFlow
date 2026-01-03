@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   # Prediction API Service
@@ -70,8 +70,8 @@ services:
       - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
       - ./monitoring/prometheus/alert_rules.yml:/etc/prometheus/alert_rules.yml
     command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
-      - '--storage.tsdb.path=/prometheus'
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
     networks:
       - apexflow_net
     ports:
@@ -124,7 +124,9 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
       args:
-        - VITE_API_URL=http://localhost:8000
+        - VITE_API_URL=http://146.190.107.7:8000
+        - VITE_SUPABASE_URL=${VITE_SUPABASE_URL}
+        - VITE_SUPABASE_ANON_KEY=${VITE_SUPABASE_ANON_KEY}
     container_name: apexflow-frontend
     ports:
       - "80:80"
