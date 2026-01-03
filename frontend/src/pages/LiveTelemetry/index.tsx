@@ -52,25 +52,26 @@ export default function LiveTelemetry() {
   }, []);
 
   const fetchLatestSession = async () => {
+    const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
     try {
-      const res = await fetch('http://localhost:8000/live/latest');
+      const res = await fetch(`${API_BASE_URL}/live/latest`);
       if (!res.ok) throw new Error("Failed to fetch session");
       const data = await res.json();
       setSession(data);
       
       if (data.session_key) {
         // Fetch drivers
-        const driversRes = await fetch(`http://localhost:8000/live/${data.session_key}/drivers`);
+        const driversRes = await fetch(`${API_BASE_URL}/live/${data.session_key}/drivers`);
         const driversData = await driversRes.json();
         setDrivers(driversData);
         
         // Fetch laps
-        const lapsRes = await fetch(`http://localhost:8000/live/${data.session_key}/laps`);
+        const lapsRes = await fetch(`${API_BASE_URL}/live/${data.session_key}/laps`);
         const lapsData: Lap[] = await lapsRes.json();
         setLaps(lapsData);
 
         // Fetch Weather
-        const weatherRes = await fetch(`http://localhost:8000/live/${data.session_key}/weather`);
+        const weatherRes = await fetch(`${API_BASE_URL}/live/${data.session_key}/weather`);
         if (weatherRes.ok) {
            const weatherData = await weatherRes.json();
            // Get latest weather point
