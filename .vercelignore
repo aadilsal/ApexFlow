@@ -1,0 +1,32 @@
+# Vercel Ignore File
+# Exclude backend-heavy directories to stay under the 300MB limit
+
+# Backend Source
+src/
+config/
+models/
+data/
+reports/
+logs/
+monitoring/
+
+# Python Virtual Env (Just in case)
+.venv/
+venv/
+
+# Deployment & Docker
+deploy/
+docker-compose.yml
+Dockerfile
+Dockerfile.*
+render.yaml
+requirements.txt
+
+# Database
+*.db
+*.sqlite
+supabase_schema.sql
+
+# Git
+.git/
+.dvc/
