@@ -1,4 +1,4 @@
-import { Bell, User as UserIcon } from 'lucide-react';
+import { User as UserIcon } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 export default function Navbar() {
 

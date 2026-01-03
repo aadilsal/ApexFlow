@@ -39,7 +39,7 @@ interface Weather {
 export default function LiveTelemetry() {
   const [session, setSession] = useState<SessionData | null>(null);
   const [drivers, setDrivers] = useState<Driver[]>([]);
-  const [laps, setLaps] = useState<Lap[]>([]);
+  const [, setLaps] = useState<Lap[]>([]);
   const [weather, setWeather] = useState<Weather | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -257,7 +257,7 @@ export default function LiveTelemetry() {
                             itemStyle={{ color: '#fff' }}
                         />
                         <Legend />
-                        {chartData.length > 0 && Object.keys(chartData[0]).filter(k => k !== 'name').map((key, i) => (
+                        {chartData.length > 0 && Object.keys(chartData[0]).filter(k => k !== 'name').map((key) => (
                             <Line 
                                 key={key}
                                 type="monotone" 
