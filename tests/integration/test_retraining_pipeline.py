@@ -1,4 +1,4 @@
-# tests/integration/test_retraining_pipeline.py
+
 """Integration test for the full automated retraining pipeline.
 
 This test executes the Prefect flow while mocking the internal component logic
@@ -35,7 +35,7 @@ def mock_pipeline_components():
 def test_full_pipeline_success(mock_pipeline_components):
     mocks = mock_pipeline_components
     
-    # Configure mocks for success path
+    
     mocks["trigger"].return_value = True
     
     mock_ready_instance = mocks["ready"].return_value
@@ -52,10 +52,10 @@ def test_full_pipeline_success(mock_pipeline_components):
     
     mocks["version"].return_value = "v1_test"
     
-    # Run the pipeline
+    
     retraining_pipeline(severity=0.8, trigger_id="id123", season="2026", circuit="monaco")
     
-    # Verify execution flow
+    
     mocks["trigger"].assert_called_once()
     mock_ready_instance.check_latest_data.assert_called_once()
     mock_trainer_instance.train.assert_called_once()
@@ -63,7 +63,7 @@ def test_full_pipeline_success(mock_pipeline_components):
     mock_comp_instance.compare.assert_called_once()
     mocks["reg"].assert_called_once_with("id123", "latest")
     
-    # Verify success notification
+    
     mocks["emit"].assert_any_call("model_promoted", {"version": "v1_test", "run_id": "id123"})
 
 def test_pipeline_skipped_by_optimizer(mock_pipeline_components):
@@ -72,7 +72,7 @@ def test_pipeline_skipped_by_optimizer(mock_pipeline_components):
     
     retraining_pipeline(severity=0.5, trigger_id="id456", season="2026", circuit="monaco")
     
-    # Should stop early
+    
     mocks["trigger"].assert_called_once()
     mocks["ready"].assert_not_called()
     mocks["emit"].assert_called_with("retraining_skipped", {"reason": "schedule_constraints"})

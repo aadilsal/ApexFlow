@@ -1,4 +1,4 @@
-# tests/integration/test_full_pipeline.py
+
 import pytest
 import pandas as pd
 from tests.mock_generator import MockTelemetryGenerator
@@ -14,21 +14,21 @@ def full_pipeline_data():
     return gen.generate_session("silverstone", num_laps=20)
 
 def test_end_to_end_pipeline(full_pipeline_data, tmp_path):
-    # 1. Training Phase
+    
     model_dir = tmp_path / "models"
     trainer = ModelTrainer(model_dir=str(model_dir))
     
-    # Preprocess for trainer (simple version for integration test)
+    
     X = pd.get_dummies(full_pipeline_data.drop(columns=["lap_time", "timestamp"]))
     y = full_pipeline_data["lap_time"]
     
     model = trainer.train(X, y, trial_count=1)
     
-    # 2. Loading Phase
+    
     model_manager._model = model
     model_manager._metadata = {"version": "int-test-v1", "data_version": "hash-123"}
     
-    # 3. Inference Phase
+    
     inference = InferenceService()
     request = PredictionRequest(
         driver_id="HAM",
@@ -39,8 +39,8 @@ def test_end_to_end_pipeline(full_pipeline_data, tmp_path):
         session_type="RACE"
     )
     
-    # We need to ensure the inference preprocessor matches the trainer's get_dummies structure
-    # For this integration test, we override preprocess to be compatible with the test training
+    
+    
     def mock_preprocess(req):
         return pd.DataFrame([0] * len(X.columns), index=X.columns).T
         

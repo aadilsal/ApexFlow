@@ -1,4 +1,4 @@
-# tests/unit/test_api_endpoints.py
+
 import pytest
 from fastapi.testclient import TestClient
 from apex_flow.api.main import app
@@ -53,7 +53,7 @@ def test_predict_invalid_auth(client):
 
 def test_predict_validation_error(client):
     headers = {"X-Apex-Key": "race-weekend-key-2026"}
-    # Missing fuel_load
+    
     payload = {"driver_id": "HAM", "circuit_id": "monaco", "tire_compound": "SOFT"}
     response = client.post("/v1/predict", json=payload, headers=headers)
     assert response.status_code == 422
