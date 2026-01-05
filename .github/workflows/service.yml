@@ -2,21 +2,21 @@ name: Service Pipeline
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   ci-cd:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
-          cache: 'pip'
+          python-version: "3.10"
+          cache: "pip"
 
       - name: Install dependencies
         run: |
@@ -31,21 +31,8 @@ jobs:
         run: |
           docker build -t apex-flow-service:${{ github.sha }} -f Dockerfile.inference .
 
-      - name: Deploy to Staging
-        if: github.ref == 'refs/heads/main'
-        run: |
-          ./scripts/deploy.sh staging ${{ github.sha }}
-        env:
-          STAGING_SERVER: ${{ secrets.STAGING_SERVER }}
-
-      - name: Run Smoke Tests on Staging
-        if: github.ref == 'refs/heads/main'
-        run: |
-          ./scripts/smoke_test.sh staging
-
-      - name: Promote to Production
-        if: github.ref == 'refs/heads/main'
-        run: |
-          ./scripts/deploy.sh prod ${{ github.sha }}
-        env:
-          PROD_SERVER: ${{ secrets.PROD_SERVER }}
+      # - name: Deploy to Render (Webhook)
+      #   if: github.ref == 'refs/heads/main'
+      #   run: |
+      #     # curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
+      #     echo "Deploy step skipped. Configure Render Deploy Hook to enable auto-deployment."

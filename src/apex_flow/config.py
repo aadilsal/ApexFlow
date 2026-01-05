@@ -4,7 +4,7 @@ from pydantic import BaseModel, Field
 from typing import List, Optional
 
 class FastF1Settings(BaseModel):
-    cache_dir: str = Field(default="C:/Users/aadil/.gemini/apexflow_cache", description="Directory for FastF1 cache")
+    cache_dir: str = Field(default=str(Path.home() / ".apexflow" / "cache"), description="Directory for FastF1 cache")
     requests_per_hour: int = 1000
     use_cache: bool = True
 

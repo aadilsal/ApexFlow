@@ -6,7 +6,8 @@ FROM python:3.10-slim as builder
 
 # Set build environment variables
 ENV PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1
+    PYTHONUNBUFFERED=1 \
+    PATH="/root/.local/bin:${PATH}"
 
 WORKDIR /build
 
@@ -36,7 +37,7 @@ RUN useradd -m apexflow && chown -R apexflow:apexflow /app
 USER apexflow
 
 # Copy installed packages from builder stage
-COPY --from=builder /root/.local /home/apexflow/.local
+COPY --from=builder --chown=apexflow:apexflow /root/.local /home/apexflow/.local
 
 # Copy application source code
 COPY --chown=apexflow:apexflow src /app/src

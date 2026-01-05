@@ -12,22 +12,25 @@ RUN pip install --user --no-cache-dir -r requirements.txt
 # --- Stage 2: Final ---
 FROM python:3.10-slim
 
+# Create non-root user first
+RUN useradd -m apexuser
+
 WORKDIR /app
 
 # Copy installed packages from builder
-COPY --from=builder /root/.local /root/.local
-ENV PATH=/root/.local/bin:$PATH
+COPY --from=builder --chown=apexuser:apexuser /root/.local /home/apexuser/.local
+
+# Ensure path includes the user's local bin
+ENV PATH=/home/apexuser/.local/bin:$PATH
 
 # Copy source code
-COPY src /app/src
-COPY config /app/config
-COPY main.py /app/
+COPY --chown=apexuser:apexuser src /app/src
+COPY --chown=apexuser:apexuser config /app/config
+COPY --chown=apexuser:apexuser main.py /app/
 
-# Create non-root user for safety
-RUN useradd -m apexuser && chown -R apexuser:apexuser /app
 USER apexuser
 
 EXPOSE 8000
 
-# Default command (assuming a FastAPI/Uvicorn entry point in main.py)
+# Default command
 CMD ["python", "main.py"]
