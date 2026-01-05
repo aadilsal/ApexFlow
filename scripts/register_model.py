@@ -1,5 +1,6 @@
 import mlflow
 import dagshub
+from dotenv import load_dotenv
 import joblib
 from pathlib import Path
 from mlflow.tracking import MlflowClient
@@ -7,6 +8,7 @@ from mlflow.tracking import MlflowClient
 def register_and_promote():
     # 1. Initialize DagsHub
     print("Initializing DagsHub...")
+    load_dotenv()
     dagshub.init(repo_owner='aadilsal', repo_name='ApexFlow', mlflow=True)
     
     model_name = "ApexFlow_LapTime_Predictor"

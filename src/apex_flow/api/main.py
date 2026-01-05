@@ -12,8 +12,8 @@ from supabase import create_client, Client
 import os
 from dotenv import load_dotenv
 
-# Load environment variables from frontend/.env
-load_dotenv(os.path.join("frontend", ".env"))
+# Load environment variables from .env file
+load_dotenv()
 
 from apex_flow.api.schemas import (
     PredictionRequest, PredictionResponse, HealthResponse, 

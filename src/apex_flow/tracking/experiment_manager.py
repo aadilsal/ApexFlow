@@ -1,5 +1,6 @@
 import mlflow
 import dagshub
+from dotenv import load_dotenv
 from typing import Dict, Any, Optional
 from apex_flow.logger import logger
 from pathlib import Path
@@ -17,6 +18,8 @@ class ExperimentManager:
             # Assumes env vars or auth is handled. 
             # If not logged in, this might trigger interactive flow which we can't do here.
             # Assuming user has set it up or we rely on dagshub generic config.
+            # Assuming user has set it up or we rely on dagshub generic config.
+            load_dotenv()
             dagshub.init(repo_owner='aadilsal', repo_name='ApexFlow', mlflow=True)
         except Exception as e:
             logger.warning("dagshub_init_failed", error=str(e))
