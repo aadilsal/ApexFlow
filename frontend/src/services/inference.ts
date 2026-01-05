@@ -1,7 +1,9 @@
 import axios from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
-const API_KEY = import.meta.env.VITE_APEX_API_KEY || 'race-weekend-key-2026';
+import { API_BASE_URL, API_KEY } from '../config';
+
+// const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+// const API_KEY = import.meta.env.VITE_APEX_API_KEY || 'race-weekend-key-2026';
 
 export const apiClient = axios.create({
     baseURL: API_BASE_URL,

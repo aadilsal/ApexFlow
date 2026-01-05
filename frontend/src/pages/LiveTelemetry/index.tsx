@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Activity, Calendar, Flag, Trophy, Wind, Thermometer } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
+import { API_BASE_URL } from '../../config';
 
 interface SessionData {
   session_key: number;
@@ -52,7 +53,6 @@ export default function LiveTelemetry() {
   }, []);
 
   const fetchLatestSession = async () => {
-    const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
     try {
       const res = await fetch(`${API_BASE_URL}/live/latest`);
       if (!res.ok) throw new Error("Failed to fetch session");

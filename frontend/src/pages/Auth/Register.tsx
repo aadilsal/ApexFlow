@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { UserPlus, Mail, Lock, User, AlertCircle, Loader2 } from 'lucide-react';
+import { API_BASE_URL } from '../../config';
 
 export default function Register() {
   const [email, setEmail] = useState('');
@@ -17,7 +18,6 @@ export default function Register() {
     setError(null);
 
     try {
-      const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
       const response = await fetch(`${API_BASE_URL}/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
