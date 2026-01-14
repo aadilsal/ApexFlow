@@ -90,7 +90,12 @@ async def log_requests(request: Request, call_next):
 # Add CORS Middleware last to ensure it processes preflight OPTIONS requests first
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[
+        "https://apexflow.cloud",
+        "https://www.apexflow.cloud",
+        "http://localhost:5173",  # Local Frontend
+        "http://localhost:3000",  # Local Frontend Alternative
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
