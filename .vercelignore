@@ -1,8 +1,7 @@
 # Vercel Ignore File
-# Exclude backend-heavy directories to stay under the 300MB limit
+# Exclude backend-heavy directories to stay under the 250MB limit
 
 # Backend Source (Root only)
-/src/
 /config/
 /models/
 /data/
@@ -12,11 +11,12 @@
 
 # Allow frontend
 !frontend/
-!frontend/src/
 
 # Python Virtual Env (Just in case)
 .venv/
 venv/
+__pycache__/
+*.pyc
 
 # Deployment & Docker
 deploy/
@@ -24,7 +24,7 @@ docker-compose.yml
 Dockerfile
 Dockerfile.*
 render.yaml
-requirements.txt
+/requirements.txt
 
 # Database
 *.db
