@@ -1,0 +1,37 @@
+{
+    "version": 2,
+    "buildCommand": "cd frontend && npm install && npm run build",
+    "outputDirectory": "frontend/dist",
+    "builds": [
+        {
+            "src": "frontend/package.json",
+            "use": "@vercel/static-build"
+        },
+        {
+            "src": "api/index.py",
+            "use": "@vercel/python"
+        }
+    ],
+    "rewrites": [
+        {
+            "source": "/api/(.*)",
+            "destination": "/api/index.py"
+        },
+        {
+            "source": "/auth/(.*)",
+            "destination": "/api/index.py"
+        },
+        {
+            "source": "/live/(.*)",
+            "destination": "/api/index.py"
+        },
+        {
+            "source": "/health",
+            "destination": "/api/index.py"
+        },
+        {
+            "source": "/(.*)",
+            "destination": "/frontend/dist/$1"
+        }
+    ]
+}
